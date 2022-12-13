@@ -74,16 +74,21 @@ const Login = ({}) => {
             />
           </View>
           <View style={styles.rememberMe}>
-            <TouchableRipple>
-              <View>
-                <View pointerEvents="none">
-                  <Switch value={true} />
+            <View style={styles.rememberMeSwitch}>
+              <TouchableRipple>
+                <View>
+                  <View pointerEvents="none">
+                    <Switch value={true} />
+                  </View>
                 </View>
-              </View>
-            </TouchableRipple>
+              </TouchableRipple>
+              <PaperText variant="bodyMedium" style={styles.ft400}>
+                Remember Me
+              </PaperText>
+            </View>
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => console.log('Pressed')}>
+              onPress={() => navigation.navigate(ROUTES.FORGOT_PASSWORD)}>
               <PaperText variant="titleSmall" style={styles.forgotPassText}>
                 Forgot Password?{' '}
               </PaperText>
@@ -94,7 +99,11 @@ const Login = ({}) => {
         </View>
 
         <View style={styles.row}>
-          <PrimaryButton label="Sign In" width="85%" />
+          <PrimaryButton
+            label="Sign In"
+            width="85%"
+            clickhandler={() => navigation.navigate('Test')}
+          />
         </View>
         {/***************** Socail Logins **********************/}
         <View style={[styles.row, {marginTop: 20}]}>
@@ -126,7 +135,7 @@ const Login = ({}) => {
           <PaperText variant="titleMedium">Don't have an account?</PaperText>
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => console.log('pressed signup')}>
+            onPress={() => navigation.navigate(ROUTES.REGISTER)}>
             <PaperText
               variant="titleMedium"
               style={{color: theme.colors.primary}}>
@@ -234,12 +243,20 @@ const styles = StyleSheet.create({
   mr7: {
     marginRight: 7,
   },
+  ft400: {
+    fontWeight: '700',
+  },
   rememberMe: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
     marginTop: 20,
+    alignItems: 'center',
+  },
+  rememberMeSwitch: {
+    display: 'flex',
+    flexDirection: 'row',
     alignItems: 'center',
   },
   buttonContainer: {

@@ -6,14 +6,19 @@ import RightArrow from '../assets/icons/RightArrow.svg';
 interface buttonProps {
   label: string;
   width?: string;
+  clickhandler?: (event: MouseEvent) => void;
 }
 export const PrimaryButton = ({
   label = 'Login',
   width = '100%',
+  clickhandler,
 }: buttonProps) => {
   return (
     <View style={{width: width}}>
-      <TouchableOpacity activeOpacity={0.7} style={styles.primaryButton}>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={styles.primaryButton}
+        onPress={clickhandler}>
         <View style={styles.buttonLabelContainer}>
           <Text style={styles.buttonLabel}>{label}</Text>
         </View>
