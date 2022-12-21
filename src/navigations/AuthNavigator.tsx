@@ -1,15 +1,25 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Login, ForgotPassword, Register} from '../screens';
+import {Login, ForgotPassword, Register, Home, Profile} from '../screens';
 import {COLORS, ROUTES} from '../constants';
-import DrawerNavigator from './DrawerNavigator';
 import Test from '../screens/home/Test';
+import BottomTabsNavigation from './BottomTabNavigator';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import DrawerNavigator from './DrawerNavigator';
 
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 // Navigator, Screen, Group
+// function DrawerNavigator() {
+//   return (
+//     <Drawer.Navigator>
+//       <Drawer.Screen name="TabNavigator" component={BottomTabsNavigation} />
+//       <Drawer.Screen name="Home" component={Profile} />
+//     </Drawer.Navigator>
+//   );
+// }
 
 function AuthNavigator() {
-  console.log(Stack);
   return (
     <Stack.Navigator
       screenOptions={{

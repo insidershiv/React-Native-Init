@@ -19,4 +19,12 @@ export default {
 
   SETTINGS_DETAIL: 'Settings Detail',
   PROFILE: 'My Profile',
+
+  Help: 'Help & FAQs',
+  Bookmark: 'Bookmarks',
+  Message: 'Message',
+  Calendar: 'Calendar',
+  Contact: 'Contact',
+  EVENTS: 'Events',
+  EXPLORE: 'Explore',
 };

@@ -1,18 +1,20 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {COLORS} from '../../constants';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import PaperChips from '../../components/PaperChips';
+import IonIcon from 'react-native-vector-icons/Ionicons';
+import {Chip} from 'react-native-paper';
 
 const Home = () => {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: COLORS.bgColor,
-      }}>
-      <Text>Home!</Text>
-    </View>
+    <SafeAreaView>
+      <View>
+        <Chip icon={() => <IonIcon name="ios-basketball-outline" />}>
+          Football
+        </Chip>
+      </View>
+    </SafeAreaView>
   );
 };
 

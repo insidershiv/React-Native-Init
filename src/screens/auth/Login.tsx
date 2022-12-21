@@ -102,10 +102,10 @@ const Login = ({}) => {
           <PrimaryButton
             label="Sign In"
             width="85%"
-            clickhandler={() => navigation.navigate('Test')}
+            clickhandler={() => navigation.navigate('Home')}
           />
         </View>
-        {/***************** Socail Logins **********************/}
+        {/***************** Social Logins **********************/}
         <View style={[styles.row, {marginTop: 20}]}>
           <PaperText
             variant="titleLarge"

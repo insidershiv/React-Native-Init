@@ -2,13 +2,13 @@ import React from 'react';
 import {SafeAreaView, View} from 'react-native';
 import {Text} from 'react-native-paper';
 
-const Test = () => {
+const Events = () => {
   return (
     <SafeAreaView>
       <View>
-        <Text>Text is here</Text>
+        <Text>Events screen</Text>
       </View>
     </SafeAreaView>
   );
 };
-export default Test;
+export default Events;

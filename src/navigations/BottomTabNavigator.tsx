@@ -1,105 +1,23 @@
-import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StyleSheet, Platform, TouchableOpacity} from 'react-native';
-import {COLORS, ROUTES} from '../constants';
-import {Home, Wallet, Notifications, Settings} from '../screens';
-import Icon from 'react-native-vector-icons/Ionicons';
-import SettingsNavigator from './SettingsNavigator';
-import CustomTabBarButton from '../components/CustomTabBarButton';
-import CustomTabBar from '../components/CustomTabBar';
-import {useNavigation} from '@react-navigation/native';
+import {Home, Profile, Settings} from '../screens';
+import DrawerNavigator from './DrawerNavigator';
+import colors from '../constants/colors';
+import routes from '../constants/routes';
+import Explore from '../screens/Explore';
+import Events from '../screens/Events';
 
 const Tab = createBottomTabNavigator();
 
-function BottomTabNavigator() {
-  const navigation = useNavigation();
-
+function BottomTabsNavigation() {
   return (
     <Tab.Navigator
-      tabBar={props => <CustomTabBar {...props} />}
-      screenOptions={({route}) => ({
+      screenOptions={{
         headerShown: false,
-        tabBarShowLabel: false,
-        tabBarInactiveTintColor: COLORS.dark,
-        tabBarStyle: styles.tabBarStyle,
-        tabBarActiveTintColor: COLORS.primary,
-        tabBarIcon: ({color, size, focused}) => {
-          let iconName;
-
-          if (route.name === ROUTES.HOME_TAB) {
-            iconName = focused ? 'ios-home-sharp' : 'ios-home-outline';
-          } else if (route.name === ROUTES.SETTINGS_NAVIGATOR) {
-            iconName = focused ? 'settings' : 'settings-outline';
-          } else if (route.name === ROUTES.WALLET) {
-            iconName = focused ? 'wallet' : 'wallet-outline';
-          } else if (route.name === ROUTES.NOTIFICATIONS) {
-            iconName = focused
-              ? 'md-notifications-sharp'
-              : 'md-notifications-outline';
-          }
-
-          return <Icon name={iconName} size={22} color={color} />;
-        },
-      })}>
-      <Tab.Screen
-        name={ROUTES.HOME_TAB}
-        component={Home}
-        options={{
-          tabBarButton: props => <CustomTabBarButton route="home" {...props} />,
-        }}
-      />
-      <Tab.Screen
-        name={ROUTES.WALLET}
-        component={Wallet}
-        options={{
-          tabBarButton: props => <CustomTabBarButton {...props} />,
-        }}
-      />
-      <Tab.Screen
-        name={ROUTES.NOTIFICATIONS}
-        component={Notifications}
-        options={{
-          tabBarButton: props => <CustomTabBarButton {...props} />,
-        }}
-      />
-      <Tab.Screen
-        name={ROUTES.SETTINGS_NAVIGATOR}
-        component={SettingsNavigator}
-        options={{
-          tabBarLabel: 'Settings',
-          title: 'Settings',
-          headerShown: true,
-          tabBarButton: props => (
-            <CustomTabBarButton route="settings" {...props} />
-          ),
-          headerRight: () => {
-            return (
-              <TouchableOpacity onPress={() => navigation.openDrawer()}>
-                <Icon
-                  name={Platform.OS === 'ios' ? 'ios-menu' : 'md-menu'}
-                  size={30}
-                  color={COLORS.dark}
-                  style={{marginRight: 10}}
-                />
-              </TouchableOpacity>
-            );
-          },
-        }}
-      />
+      }}>
+      <Tab.Screen name={routes.EXPLORE} component={Explore} />
+      <Tab.Screen name={routes.EVENTS} component={Events} />
     </Tab.Navigator>
   );
 }
 
-export default BottomTabNavigator;
-
-const styles = StyleSheet.create({
-  tabBarStyle: {
-    position: 'absolute',
-    backgroundColor: COLORS.transparent,
-    borderTopWidth: 0,
-    bottom: 15,
-    right: 10,
-    left: 10,
-    height: 92,
-  },
-});
+export default BottomTabsNavigation;
