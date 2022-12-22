@@ -26,7 +26,11 @@ const Drawer = createDrawerNavigator();
 
 function DrawerNavigator() {
   return (
-    <Drawer.Navigator drawerContent={props => <CustomDrawer {...props} />}>
+    <Drawer.Navigator
+      drawerContent={props => <CustomDrawer {...props} />}
+      screenOptions={{
+        headerTitleAlign: 'center',
+      }}>
       {/* <Drawer.Screen
         name={ROUTES.HOME}
         component={BottomTabsNavigation}
@@ -61,7 +65,7 @@ function DrawerNavigator() {
         options={{
           title: 'Message',
           drawerIcon: ({focused, color, size}) => (
-            <MessageIcon height={25} width={25} color={color} />
+            <MessageIcon height={25} width={25} />
           ),
         }}
       />

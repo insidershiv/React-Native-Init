@@ -38,7 +38,7 @@ export const Explore = () => {
           mode="text"
           icon="chevron-right"
           contentStyle={{flexDirection: 'row-reverse'}}>
-          Seel All
+          See All
         </Button>
       </View>
       <FlatList

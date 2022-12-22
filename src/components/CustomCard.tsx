@@ -2,7 +2,6 @@ import React from 'react';
 import {
   View,
   ImageBackground,
-  Dimensions,
   TouchableOpacity,
   StyleSheet,
   Image,
@@ -10,11 +9,9 @@ import {
 import {Button, Text} from 'react-native-paper';
 import colors from '../constants/colors';
 import BookmarkIcon from '../assets/icons/Bookmark.svg';
-import Group from '../assets/Group.png';
+// import Group from '../assets/Group.png';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 const CustomCard = () => {
-  const {width} = Dimensions.get('screen');
-
   const image = require('../assets/Image.png');
   return (
     <View
@@ -22,8 +19,6 @@ const CustomCard = () => {
         width: 240,
         padding: 10,
         borderRadius: 16,
-        elevation: 20,
-        shadowColor: '#52006A',
       }}>
       <View style={{height: '45%'}}>
         <ImageBackground
@@ -66,11 +61,11 @@ const CustomCard = () => {
         </ImageBackground>
       </View>
       <View style={{marginLeft: 8, marginTop: 4}}>
-        <Text variant="bodyLarge" style={{fontWeight: '500'}}>
-          International Band Mu...
+        <Text variant="bodyLarge" style={{fontWeight: '700'}}>
+          International Band Mus....
         </Text>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Image source={Group} />
+          {/* <Image source={Group} /> */}
 
           <Button mode="text" icon="plus">
             20 More
