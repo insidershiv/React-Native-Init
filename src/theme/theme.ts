@@ -7,5 +7,10 @@ const theme = {
   // colors: {
   //   primary: Colors.primary,
   // },
+  Text: {
+    subtitle: {
+      fontWeight: 'bold',
+    },
+  },
 };
 export default theme;

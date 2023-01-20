@@ -3,26 +3,38 @@ import {Text} from 'react-native-paper';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import colors from '../constants/colors';
 import RightArrow from '../assets/icons/RightArrow.svg';
+import theme from '../theme/theme';
+import {ActivityIndicator, MD2Colors} from 'react-native-paper';
 interface buttonProps {
   label: string;
   width?: string;
-  clickhandler?: (event: MouseEvent) => void;
+  clickHandler?: (event: MouseEvent) => void;
+  loading?: boolean;
 }
 export const PrimaryButton = ({
   label = 'Login',
   width = '100%',
-  clickhandler,
+  clickHandler,
+  loading,
 }: buttonProps) => {
   return (
     <View style={{width: width}}>
       <TouchableOpacity
         activeOpacity={0.7}
         style={styles.primaryButton}
-        onPress={clickhandler}>
+        onPress={clickHandler}>
         <View style={styles.buttonLabelContainer}>
-          <Text style={styles.buttonLabel}>{label}</Text>
+          {loading ? (
+            <ActivityIndicator
+              animating={true}
+              color={MD2Colors.white}
+              size={20}
+            />
+          ) : (
+            <Text style={styles.buttonLabel}>{label}</Text>
+          )}
         </View>
-        <RightArrow height={32} width={32} color={colors.primary} />
+        {/* <RightArrow height={32} width={32} color={colors.primary} /> */}
       </TouchableOpacity>
     </View>
   );
@@ -34,25 +46,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
   },
   primaryButton: {
-    backgroundColor: colors.primary,
+    backgroundColor: theme.colors.primary,
     color: colors.white,
     paddingTop: 20,
     paddingBottom: 20,
     paddingLeft: 15,
     paddingRight: 15,
-    borderRadius: 20,
+    borderRadius: 15,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonLabel: {
     color: '#fff',
-    textTransform: 'uppercase',
+    textTransform: 'none',
     fontWeight: '700',
     fontSize: 16,
     textAlign: 'center',
   },
   buttonLabelContainer: {
-    flex: 2,
+    flex: 1,
   },
 });

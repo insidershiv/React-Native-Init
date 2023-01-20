@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   SafeAreaView,
   TouchableOpacity,
+  PixelRatio,
 } from 'react-native';
 import {COLORS, ROUTES} from '../../constants';
 import Logo from '../../assets/icons/Logo.svg';
@@ -13,41 +13,104 @@ import Password from '../../assets/icons/Password.svg';
 import Google from '../../assets/icons/Google.svg';
 import Facebook from '../../assets/icons/Facebook.svg';
 import {useNavigation} from '@react-navigation/native';
+import CFSLogo from '../../assets/Spacetel.png';
 import {
   TextInput,
   Text as PaperText,
   TouchableRipple,
   Switch,
   Button,
+  useTheme,
+  Snackbar,
 } from 'react-native-paper';
 import PrimaryButton from '../../components/PrimaryButton';
-import theme from '../../theme/theme';
+// import theme from '../../theme/theme';
+import {RFValue, hp, normalize, wp} from '../utils/utils';
+import PaperSwitch from '../../components/PaperSwitch';
+import globalStyles from '../../styles/global';
+import {ApiEndpoint, StatusCode} from '../../types/enum';
+import {BASE_URL} from '../../services/common';
+import {universalPostRequestWithData} from '../../services/requestHandler';
+import {LoginData} from '../../types/interface';
+import AsyncStorage from '@react-native-community/async-storage';
+import {useDispatch} from 'react-redux';
+import {Login} from '../../redux/slices/userSlice';
 // import colors from '../../constants/colors';
 
-const Login = ({}) => {
+const LoginScreen = () => {
   // const {navigation} = props;
+  const theme = useTheme();
   const navigation = useNavigation();
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState('');
+  const [userDetails, setUserDetails] = useState({
+    userName: '',
+    password: '',
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const login = async () => {
+    if (isLoading) {
+      return;
+    }
+    setIsLoading(true);
+    const url = `${BASE_URL}/${ApiEndpoint.LOGIN}`;
+    const data = {
+      username: userDetails.userName,
+      password: userDetails.password,
+      'white-label': 'v2wallet.spacetel.co.uk',
+    };
+    const response: any = await universalPostRequestWithData(url, data);
+
+    if (response && response.status === StatusCode.OKAY) {
+      const data: LoginData = response.data.data;
+      dispatch(Login(data));
+      setUserDetails({userName: '', password: ''});
+      AsyncStorage.setItem('loginData', JSON.stringify(data));
+      navigation.navigate(ROUTES.VERIFY_MFA_DEVICE);
+    } else {
+      setError('Something went wrong');
+    }
+
+    setIsLoading(false);
+  };
 
   return (
     <SafeAreaView style={styles.main}>
       <View style={styles.container}>
         <View style={styles.wFull}>
           <View style={styles.row}>
-            <Logo height={60} width={60} />
+            <Facebook height={45} width={45} />
           </View>
-          <Text style={styles.brandName}>EventHub</Text>
-
-          <View>
-            <PaperText variant="titleLarge" style={styles.loginContinueTxt}>
-              Sign in{' '}
+          <View style={styles.row}>
+            <PaperText
+              variant="titleLarge"
+              allowFontScaling
+              adjustsFontSizeToFit
+              style={globalStyles.title}>
+              Welcome Back!{' '}
             </PaperText>
+          </View>
+          <View style={[styles.row]}>
+            <PaperText variant="titleMedium" style={globalStyles.subtitle}>
+              Sign in to continue
+            </PaperText>
+          </View>
+          {/* <PaperText style={styles.brandName}>Spacetel</PaperText> */}
+
+          <View style={{marginTop: hp(4)}}>
             <TextInput
               theme={{roundness: 10, underlineColor: 'gray'}}
               placeholder="Email"
               mode="outlined"
               outlineColor="#E4DFDF"
               style={styles.input}
+              value={userDetails.userName}
+              disabled={isLoading}
+              onChangeText={email =>
+                setUserDetails({...userDetails, userName: email})
+              }
               left={
                 <TextInput.Icon icon={() => <Mail height={20} width={20} />} />
               }
@@ -57,6 +120,11 @@ const Login = ({}) => {
               placeholder="Password"
               mode="outlined"
               outlineColor="#E4DFDF"
+              value={userDetails.password}
+              disabled={isLoading}
+              onChangeText={value =>
+                setUserDetails({...userDetails, password: value})
+              }
               left={
                 <TextInput.Icon
                   icon={() => <Password height={20} width={20} color="" />}
@@ -78,7 +146,10 @@ const Login = ({}) => {
               <TouchableRipple>
                 <View>
                   <View pointerEvents="none">
-                    <Switch value={true} />
+                    <PaperSwitch
+                      value={rememberMe}
+                      onChangeHandler={() => setRememberMe(!rememberMe)}
+                    />
                   </View>
                 </View>
               </TouchableRipple>
@@ -89,24 +160,22 @@ const Login = ({}) => {
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => navigation.navigate(ROUTES.FORGOT_PASSWORD)}>
-              <PaperText variant="titleSmall" style={styles.forgotPassText}>
-                Forgot Password?{' '}
-              </PaperText>
+              <PaperText variant="titleSmall">Forgot Password? </PaperText>
             </TouchableOpacity>
           </View>
 
           {/***************** FORGOT PASSWORD BUTTON *****************/}
         </View>
 
-        <View style={styles.row}>
+        <View style={[styles.row, {marginTop: hp(5)}]}>
           <PrimaryButton
-            label="Sign In"
-            width="85%"
-            clickhandler={() => navigation.navigate('Home')}
+            label="Sign in My Account"
+            clickHandler={login}
+            loading={isLoading}
           />
         </View>
         {/***************** Social Logins **********************/}
-        <View style={[styles.row, {marginTop: 20}]}>
+        {/* <View style={[styles.row, {marginTop: 20 / PixelRatio.get()}]}>
           <PaperText
             variant="titleLarge"
             style={{fontWeight: '700', color: COLORS.gray400}}>
@@ -143,13 +212,27 @@ const Login = ({}) => {
               Sign up
             </PaperText>
           </TouchableOpacity>
+
+      </View> */}
+        <View style={[styles.row, styles.mt20]}>
+          <PaperText variant="titleSmall">Don't have an account?</PaperText>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate(ROUTES.REGISTER)}>
+            <PaperText
+              variant="titleMedium"
+              style={{color: theme.colors.primary}}>
+              {' '}
+              Sign up
+            </PaperText>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
   );
 };
 
-export default Login;
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   main: {
@@ -163,10 +246,10 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'relative',
     flex: 1,
-    marginTop: 30,
+    // marginTop: 30,
   },
   brandName: {
-    fontSize: 42,
+    fontSize: RFValue(24),
     textAlign: 'center',
     fontWeight: 'bold',
     color: COLORS.black,
@@ -177,11 +260,12 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     fontWeight: 'bold',
     textShadow: '0px 8px 8px rgba(0, 0, 0, 0.25)',
-    marginTop: 22,
-    fontSize: 28,
+    marginTop: hp(2.5),
+    fontSize: RFValue(20),
   },
   input: {
     marginVertical: 10,
+    textTransform: 'none',
   },
   // Login Btn Styles
   loginBtnWrapper: {
@@ -238,7 +322,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   mr7: {
     marginRight: 7,
@@ -269,12 +353,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   socialMediaButton: {
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingTop: 20 / PixelRatio.get(),
+    paddingBottom: 20 / PixelRatio.get(),
+    paddingLeft: 15 / PixelRatio.get(),
+    paddingRight: 15 / PixelRatio.get(),
     borderRadius: 20,
     backgroundColor: '#FFFFFF',
-    width: '85%',
+    width: wp('80%'),
   },
 });

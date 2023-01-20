@@ -1,6 +1,13 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Login, ForgotPassword, Register, Home, Profile} from '../screens';
+import {
+  Login,
+  ForgotPassword,
+  Register,
+  Home,
+  Profile,
+  VerifyMfa,
+} from '../screens';
 import {COLORS, ROUTES} from '../constants';
 import Test from '../screens/home/Test';
 import BottomTabsNavigation from './BottomTabNavigator';
@@ -44,6 +51,7 @@ function AuthNavigator() {
         options={{headerShown: false}}
       />
       <Stack.Screen name={ROUTES.REGISTER} component={Register} />
+      <Stack.Screen name={ROUTES.VERIFY_MFA_DEVICE} component={VerifyMfa} />
       <Stack.Screen
         name={ROUTES.HOME}
         component={DrawerNavigator}

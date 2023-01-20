@@ -6,7 +6,7 @@ import globalStyles from '../styles/global';
 
 interface paperTextInputProps extends React.ComponentProps<typeof TextInput> {
   placeHolder: string;
-  Icon: React.FC<SvgProps>;
+  Icon?: React.FC<SvgProps>;
 }
 const PaperTextInput = ({placeHolder, mode, Icon}: paperTextInputProps) => {
   return (
@@ -19,7 +19,7 @@ const PaperTextInput = ({placeHolder, mode, Icon}: paperTextInputProps) => {
       mode={mode}
       outlineColor="#E4DFDF"
       style={globalStyles.input}
-      left={<TextInput.Icon icon={() => <Icon height={20} width={20} />} />}
+      // left={<TextInput.Icon icon={() => <Icon height={20} width={20} />} />}
     />
   );
 };

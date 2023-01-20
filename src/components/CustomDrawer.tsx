@@ -18,7 +18,7 @@ const {width} = Dimensions.get('screen');
 
 const CustomDrawer = props => {
   return (
-    <DrawerContentScrollView {...props}>
+    <DrawerContentScrollView {...props} style={{marginLeft: 10}}>
       <SafeAreaView>
         <Image source={IMGS.user} style={styles.userImg} />
         <View>

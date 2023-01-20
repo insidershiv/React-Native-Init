@@ -27,4 +27,5 @@ export default {
   Contact: 'Contact',
   EVENTS: 'Events',
   EXPLORE: 'Explore',
+  VERIFY_MFA_DEVICE: 'Verify Mfa Device',
 };

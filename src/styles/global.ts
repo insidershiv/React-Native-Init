@@ -3,16 +3,16 @@ import {COLORS} from '../constants';
 const styles = StyleSheet.create({
   title: {
     color: COLORS.black,
-    marginBottom: 8,
+    marginBottom: 6,
     fontWeight: 'bold',
     textShadow: '0px 8px 8px rgba(0, 0, 0, 0.25)',
     marginTop: 22,
     fontSize: 28,
   },
   input: {
-    marginVertical: 10,
-    paddingTop: 6,
-    paddingBottom: 6,
+    marginVertical: 3,
+    paddingTop: 2,
+    paddingBottom: 2,
   },
   row: {
     flexDirection: 'row',
@@ -37,6 +37,11 @@ const styles = StyleSheet.create({
   },
   main: {
     padding: 16,
+  },
+  subtitle: {
+    color: 'rgba(28, 25, 57, 0.8)',
+    fontSize: 16,
+    fontWeight: '300',
   },
 });
 export default styles;

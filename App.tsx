@@ -8,11 +8,11 @@ import theme from './src/theme/theme';
 export default function App() {
   // isAuthenticated = is...
   return (
-    <PaperProvider theme={theme}>
-      <NavigationContainer theme={theme}>
+    <NavigationContainer>
+      <PaperProvider theme={theme}>
         {/* {isAuthenticated ? AuthNavigator : DrawerNavigator } */}
         <AuthNavigator />
-      </NavigationContainer>
-    </PaperProvider>
+      </PaperProvider>
+    </NavigationContainer>
   );
 }

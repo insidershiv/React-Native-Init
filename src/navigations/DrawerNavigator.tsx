@@ -22,15 +22,19 @@ import colors from '../constants/colors';
 import {Text} from 'react-native-paper';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import BottomTabsNavigation from './BottomTabNavigator';
+import DrawerIcon from '../assets/icons/DrawerIcon.svg';
 const Drawer = createDrawerNavigator();
 
 function DrawerNavigator() {
   return (
     <Drawer.Navigator
       drawerContent={props => <CustomDrawer {...props} />}
-      screenOptions={{
+      screenOptions={({navigation}) => ({
         headerTitleAlign: 'center',
-      }}>
+        drawerStyle: {
+          backgroundColor: colors.white,
+        },
+      })}>
       {/* <Drawer.Screen
         name={ROUTES.HOME}
         component={BottomTabsNavigation}

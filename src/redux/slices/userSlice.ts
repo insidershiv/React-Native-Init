@@ -1,16 +1,46 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {userInterface} from '../../types/interface';
+import {LoginData, userInterface} from '../../types/interface';
 
 export interface user {
   authenticated: boolean;
-  userData: userInterface;
+  mfaVerified: boolean;
+  loginData: LoginData;
 }
 
 const initialState: user = {
   authenticated: false,
-  userData: {
-    name: '',
+  mfaVerified: false,
+  loginData: {
+    access_token: '',
+    refresh_token: '',
+    is_first_login: false,
+    is_mfa_active: false,
+    device_key: '',
+    session_key: '',
+    id_token: '',
+    expires_in: 0,
+    expiry_time: 0,
+    login_time: 0,
+    date: '',
     email: '',
+    username: '',
+    phone_number: '',
+    user_id: 0,
+    owner_company: 0,
+    programme_manager: 0,
+    subprogramme_manager: 0,
+    corporate: 0,
+    entity_id: 0,
+    default_profile: '',
+    current_profile: '',
+    permissions: [],
+    user_state: '',
+    user_status: '',
+    user_upcoming_status: '',
+    msgAlreadyShown: false,
+    kybStatus: '',
+    onboardingStatus: '',
+    entity_name: '',
   },
 };
 
@@ -18,9 +48,27 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    Login: (state, action: PayloadAction<userInterface>) => {
+    Login: (state, action: PayloadAction<LoginData>) => {
       state.authenticated = true;
-      state.userData = action.payload;
+      state.mfaVerified = false;
+      state.loginData = action.payload;
+    },
+    MfaVerify: (state, action: PayloadAction<LoginData>) => {
+      state.authenticated = true;
+      state.mfaVerified = true;
+      state.loginData = action.payload;
+    },
+    PhoneChanged: (state, action: PayloadAction<string>) => {
+      state.loginData.phone_number = action.payload;
+    },
+    Logout: state => {
+      state.authenticated = false;
+      state.mfaVerified = false;
+      state.loginData = initialState.loginData;
     },
   },
 });
+
+export const {Login, MfaVerify, PhoneChanged, Logout} = userSlice.actions;
+
+export default userSlice.reducer;
